@@ -105,11 +105,11 @@ def cli(ip, port):
 
             while True:
 
-                reads, _, _ = select.select([sys.stdin, s], [], [])
+                readable, writable, errors = select.select([sys.stdin, s], [], [])
 
-                for sock in reads:
+                for i in readable:
 
-                    if sock is s:
+                    if i is s:
 
                         data = s.recv(1024).decode('utf-8')
 
@@ -140,8 +140,6 @@ def main():
     parser.add_argument('-p', '--port', type=int, default=54321, required=False, )
     parser.add_argument('-c', '--client', action='store_true', )
     parser.add_argument('-s', '--server', action='store_true', )
-    #parser.add_argument('--cert', required=False, )
-    #parser.add_argument('--key', required=False, )
 
     args = parser.parse_args()
 
